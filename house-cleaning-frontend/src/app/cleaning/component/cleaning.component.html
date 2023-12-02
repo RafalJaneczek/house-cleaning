@@ -1,0 +1,82 @@
+<div class="home-icon__container mt-4">
+  <button mat-fab color="warn" aria-label="Example icon button with a home icon" color="primary" (click)="goToDashboard()">
+    <mat-icon>home</mat-icon>
+  </button>
+</div>
+<div class="cleaning-form-and-stats">
+  <div class="cleaning-form__container mt-3 mb-5">
+    <form [formGroup]="cleaningForm" (ngSubmit)="onSubmit()">
+      <h3 class="text--color">Sprzątający</h3>
+      <mat-form-field>
+        <mat-label>Sprzątający</mat-label>
+        <mat-select formControlName="user">
+          <mat-option *ngFor="let user of users" [value]="user.id">{{user.firstName}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="(submitted) && !cleaningForm.get('user').valid">Pole wymagane</mat-error>
+      </mat-form-field>
+
+      <h3 class="text--color">Pomieszczenie</h3>
+      <mat-form-field>
+        <mat-label>Pomieszczenie</mat-label>
+        <mat-select formControlName="roomName">
+          <mat-option *ngFor="let room of roomDictionaries" [value]="room.key">{{room.value}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="(submitted) && !cleaningForm.get('roomName').valid">Pole wymagane</mat-error>
+      </mat-form-field>
+      <div>
+        <button type="submit" mat-raised-button color="primary">Dodaj</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="statistics">
+    <table mat-table [dataSource]="users" class="mat-elevation-z8">
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef>Imię</th>
+        <td mat-cell *matCellDef="let user"> {{user.firstName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="kitchen">
+        <th mat-header-cell *matHeaderCellDef>Kuchnia</th>
+        <td mat-cell *matCellDef="let user"> {{getStatistics(user.id, 'kitchen')}} </td>
+      </ng-container>
+      <ng-container matColumnDef="bathroom">
+        <th mat-header-cell *matHeaderCellDef>Łazienka</th>
+        <td mat-cell *matCellDef="let user"> {{getStatistics(user.id, 'bathroom')}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="statisticsTableColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: statisticsTableColumns;"></tr>
+    </table>
+  </div>
+
+</div>
+<div class="cleaning-table mat-elevation-z8 mb-4 mat-column-demo-position">
+  <table mat-table [dataSource]="cleaningData" class="mat-elevation-z8">
+    <ng-container matColumnDef="index">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let cleaning"> {{cleaningData.data.indexOf(cleaning) + 1}} </td>
+    </ng-container>
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef> Imię</th>
+      <td mat-cell *matCellDef="let cleaning"> {{cleaning.user.firstName}} </td>
+    </ng-container>
+    <ng-container matColumnDef="roomName">
+      <th mat-header-cell *matHeaderCellDef> Kuchnia</th>
+      <td mat-cell *matCellDef="let cleaning">{{cleaning.roomName | dictionaryTranslator: roomDictionaries}}</td>
+    </ng-container>
+    <ng-container matColumnDef="cleaningDate">
+      <th mat-header-cell *matHeaderCellDef> Łazienka</th>
+      <td mat-cell *matCellDef="let cleaning">{{cleaning.cleaningDate | date : 'dd.MM.yyyy HH:mm:ss'}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="cleaningTableColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: cleaningTableColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="pageSizeOptions"
+                 [pageIndex]="pageNumber"
+                 [pageSize]="pageSize"
+                 [length]="totalItems"
+                 (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

@@ -1,0 +1,93 @@
+<div class="home-icon__container mb-5 mt-4">
+  <button mat-fab color="warn" aria-label="Example icon button with a home icon" color="primary"
+          (click)="goToDashboard()">
+    <mat-icon>home</mat-icon>
+  </button>
+</div>
+<div class="cleaning-product-form-and-stats mb-5">
+  <div class="cleaning-product-form__container mt-3 mb-5">
+    <form [formGroup]="cleaningProductForm" (ngSubmit)="onSubmit()">
+      <div>
+        <div>
+          <h3 class="text--color">Kupujący</h3>
+          <mat-form-field>
+            <mat-label>Kupujący</mat-label>
+            <mat-select formControlName="user">
+              <mat-option *ngFor="let user of users" [value]="user.id">{{user.firstName}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="(submitted) && !cleaningProductForm.get('user').valid">Pole wymagane</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h3 class="text--color">Produkt</h3>
+          <mat-form-field>
+            <mat-label>Produkt</mat-label>
+            <mat-select formControlName="productName">
+              <mat-option *ngFor="let product of productDictionaries"
+                          [value]="product.key">{{product.value}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="(submitted) && !cleaningProductForm.get('productName').valid">Pole wymagane</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="cleaning-product-form__submit-btn mt-2">
+        <button type="submit" mat-raised-button color="primary">Dodaj</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="statistics">
+    <table mat-table [dataSource]="users" class="mat-elevation-z8">
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef>Imię</th>
+        <td mat-cell *matCellDef="let user"> {{user.firstName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="{{productName}}">
+        <th mat-header-cell *matHeaderCellDef>{{productName | dictionaryTranslator: productDictionaries}}</th>
+        <td mat-cell *matCellDef="let user"> {{getStatistics(user.id, productName)}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="statisticsTableColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: statisticsTableColumns;"></tr>
+    </table>
+  </div>
+</div>
+
+<mat-tab-group (selectedTabChange)="clickOnTab($event)" [(selectedIndex)]="tabIndex"
+               class="cleaning-product-table mb-5">
+  <mat-tab *ngFor="let productDictionary of productDictionaries" label="{{productDictionary.value}}">
+    <div class="cleaning-table mat-elevation-z8 mb-4 mat-column-demo-position">
+      <table mat-table [dataSource]="cleaningProductData" class="mat-elevation-z8">
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell
+              *matCellDef="let cleaningProduct"> {{cleaningProductData.data.indexOf(cleaningProduct) + 1}} </td>
+        </ng-container>
+        <ng-container matColumnDef="userFirstName">
+          <th mat-header-cell *matHeaderCellDef>Imię</th>
+          <td mat-cell *matCellDef="let cleaning"> {{cleaning.user.firstName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="productName">
+          <th mat-header-cell *matHeaderCellDef>Produkt</th>
+          <td mat-cell
+              *matCellDef="let cleaning">{{cleaning.productName | dictionaryTranslator: productDictionaries}}</td>
+        </ng-container>
+        <ng-container matColumnDef="dateOfPurchase">
+          <th mat-header-cell *matHeaderCellDef>Data zakupu</th>
+          <td mat-cell *matCellDef="let cleaning">{{cleaning.dateOfPurchase | date : 'dd.MM.yyyy HH:mm:ss'}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="cleaningProductsTableColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: cleaningProductsTableColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="pageSizeOptions"
+                     [pageIndex]="pageNumber"
+                     [pageSize]="pageSize"
+                     [length]="totalItems"
+                     (page)="onPageChange($event)">
+      </mat-paginator>
+    </div>
+  </mat-tab>
+</mat-tab-group>
