@@ -80,12 +80,14 @@ export class CleaningProductComponent implements OnInit {
       this.statisticsTableColumns = ['firstName', this.productName];
       this.tabIndex = this.productDictionaries.indexOf(this.productDictionaries.find(product => product.key === request.productName));
       this.saveRequestInProgress = false;
-      this.getAllCleaningProducts({
-        productName: request.productName,
-        pageSize: this.pageSize,
-        pageNumber: 0,
-        sort: 'dateOfPurchase'
-      });
+      if (this.tabIndex === this.productDictionaries.map(product => product.key).indexOf(request.productName)) {
+        this.getAllCleaningProducts({
+          productName: request.productName,
+          pageSize: this.pageSize,
+          pageNumber: 0,
+          sort: 'dateOfPurchase'
+        });
+      }
     })
   }
 
