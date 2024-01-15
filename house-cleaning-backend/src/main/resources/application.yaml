@@ -5,7 +5,7 @@ spring:
     database-platform: 'org.hibernate.dialect.OracleDialect'
     show-sql: true
   datasource:
-    url: 'jdbc:oracle:thin:@192.168.0.28521/ORCLCDB'
+    url: 'jdbc:oracle:thin:@192.168.0.28:1521/ORCLCDB'
     username: 'dummy'
     password: 'dummy'
     driver-class-name: oracle.jdbc.driver.OracleDriver
