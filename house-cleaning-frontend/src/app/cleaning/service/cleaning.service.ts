@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {PageRequest} from '../../core/model/page-request';
 import {PageResponse} from '../../core/model/page-response';
 import {CleaningRequest} from '../model/cleaning-request';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,11 @@ export class CleaningService {
   constructor(private http: HttpClient) {}
 
   getAllCleanings(request: PageRequest): Observable<PageResponse<CleaningResponse[]>> {
-    return this.sendRequest('POST', 'http://192.168.0.14:8083/cleaning/get-all',  request);
+    return this.sendRequest('POST', `${environment.apiBaseUrl}/cleaning/get-all`,  request);
   }
 
   saveCleaning(reques: CleaningRequest): Observable<PageResponse<CleaningResponse[]>> {
-    return this.sendRequest('POST', 'http://192.168.0.14:8083/cleaning/save', reques);
+    return this.sendRequest('POST', `${environment.apiBaseUrl}/cleaning/save`, reques);
   }
 
   private sendRequest<T, V>(httpMethod: string, url: string, body?: V): Observable<T> {
