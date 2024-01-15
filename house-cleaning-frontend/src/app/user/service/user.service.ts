@@ -12,7 +12,7 @@ export class UserService {
   }
 
   getAllUsers(): Observable<UserResponse[]> {
-    return this.sendRequest('GET', 'http://192.168.0.14:8083/user/get-all');
+    return this.sendRequest('GET', 'http://192.168.0.28:8083/user/get-all');
   }
 
   private sendRequest<T, V>(httpMethod: string, url: string, body?: V): Observable<T> {

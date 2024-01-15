@@ -15,11 +15,11 @@ export class CleaningProductService {
   }
 
   getAllProducts(request: CLeaningProductPageRequest): Observable<PageResponse<CleaningProductResponse[]>> {
-    return this.sendRequest('POST', 'http://192.168.0.14:8083/cleaning-product/get-by-product-name', request);
+    return this.sendRequest('POST', 'http://192.168.0.28:8083/cleaning-product/get-by-product-name', request);
   }
 
   saveProduct(request: CleaningProductRequest): Observable<PageResponse<any>> {
-    return this.sendRequest('POST', 'http://192.168.0.14:8083/cleaning-product/save', request);
+    return this.sendRequest('POST', 'http://192.168.0.28:8083/cleaning-product/save', request);
   }
 
   private sendRequest<T, V>(httpMethod: string, url: string, body?: V): Observable<T> {
