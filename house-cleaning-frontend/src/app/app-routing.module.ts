@@ -6,8 +6,17 @@ import {CleaningProductComponent} from "./cleaning-product/component/cleaning-pr
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'dashboard',
     component: DashboardComponent
+  },
+  {
+    path: '**',
+    redirectTo: 'dashboard'
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'dashboard'
   },
   {
     path: 'cleaning',
