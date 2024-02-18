@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {UserResponse} from "../model/user-response";
+import {UserResponse} from '../model/user-response';
+import {AppConfig} from '../../config';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class UserService {
   }
 
   getAllUsers(): Observable<UserResponse[]> {
-    return this.sendRequest('GET', 'http://192.168.0.28:8083/user/get-all');
+    return this.sendRequest('GET', `${AppConfig.serverAddress}/user/get-all`);
   }
 
   private sendRequest<T, V>(httpMethod: string, url: string, body?: V): Observable<T> {

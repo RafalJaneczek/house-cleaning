@@ -18,7 +18,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { CleaningProductComponent } from './cleaning-product/component/cleaning-product.component';
+import {CleaningProductComponent} from './cleaning-product/component/cleaning-product.component';
 import {MatTabsModule} from '@angular/material/tabs';
 
 
